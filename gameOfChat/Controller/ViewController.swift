@@ -23,6 +23,10 @@ class ViewController: UITableViewController {
         present(loginController, animated: true, completion: nil)
         
     }
+    
+    private func test() {
+        
+    }
 
 }
 
