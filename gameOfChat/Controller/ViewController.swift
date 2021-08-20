@@ -21,6 +21,7 @@ class ViewController: UITableViewController {
         // For full screen presentation uncomment line bellow 
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
+        
     }
 
 }
