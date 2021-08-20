@@ -13,6 +13,7 @@
 		15F70A2E26CF422F00B484FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A2C26CF422F00B484FF /* Main.storyboard */; };
 		15F70A3026CF423700B484FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A2F26CF423700B484FF /* Assets.xcassets */; };
 		15F70A3326CF423700B484FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A3126CF423700B484FF /* LaunchScreen.storyboard */; };
+		15F70A3E26CF48DC00B484FF /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A3D26CF48DC00B484FF /* LoginController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		15F70A2F26CF423700B484FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15F70A3226CF423700B484FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15F70A3426CF423700B484FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15F70A3D26CF48DC00B484FF /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +58,24 @@
 		15F70A2526CF422F00B484FF /* gameOfChat */ = {
 			isa = PBXGroup;
 			children = (
+				15F70A3C26CF487000B484FF /* Controller */,
 				15F70A2626CF422F00B484FF /* AppDelegate.swift */,
 				15F70A2826CF422F00B484FF /* SceneDelegate.swift */,
-				15F70A2A26CF422F00B484FF /* ViewController.swift */,
 				15F70A2C26CF422F00B484FF /* Main.storyboard */,
 				15F70A2F26CF423700B484FF /* Assets.xcassets */,
 				15F70A3126CF423700B484FF /* LaunchScreen.storyboard */,
 				15F70A3426CF423700B484FF /* Info.plist */,
 			);
 			path = gameOfChat;
+			sourceTree = "<group>";
+		};
+		15F70A3C26CF487000B484FF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				15F70A2A26CF422F00B484FF /* ViewController.swift */,
+				15F70A3D26CF48DC00B484FF /* LoginController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15F70A2B26CF422F00B484FF /* ViewController.swift in Sources */,
+				15F70A3E26CF48DC00B484FF /* LoginController.swift in Sources */,
 				15F70A2726CF422F00B484FF /* AppDelegate.swift in Sources */,
 				15F70A2926CF422F00B484FF /* SceneDelegate.swift in Sources */,
 			);

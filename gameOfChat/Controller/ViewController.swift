@@ -16,7 +16,11 @@ class ViewController: UITableViewController {
     }
     
     @objc func handleLogout() {
+        let loginController = LoginController()
         
+        // For full screen presentation uncomment line bellow 
+        loginController.modalPresentationStyle = .fullScreen
+        present(loginController, animated: true, completion: nil)
     }
 
 }
