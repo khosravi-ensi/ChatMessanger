@@ -10,12 +10,20 @@ import Firebase
 
 class LoginController: UIViewController {
     
-    private lazy var profileImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "Icon1")
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleToFill
-        return image
+    private lazy var scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.alwaysBounceVertical = true
+        sv.backgroundColor = .clear
+        sv.bounces = false
+        sv.showsVerticalScrollIndicator = false
+        return sv
+    }()
+    
+    private lazy var mainView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var inputsContainerView: UIView = {
@@ -27,7 +35,15 @@ class LoginController: UIViewController {
         return container
     }()
     
-    private lazy var loginRegisterButton: UIButton = {
+    private lazy var profileImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "Icon1")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleToFill
+        return image
+    }()
+    
+    private lazy var nextButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
         button.setTitle("Register", for: .normal)
@@ -35,12 +51,43 @@ class LoginController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
-        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
+        button.addTarget(self, action: #selector(nextButtonAction), for: .touchUpInside)
         
         return button
     }()
+    @objc private func nextButtonAction() {
+        loginRegisterSegmentedController.selectedSegmentIndex == 0 ? handleRegister() : handleLogin()
+    }
     
-    @objc private func handleRegister() {
+    private func handleLogin() {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            return
+        }
+        let validationFiels = [("email", email.isEmpty), ("password", password.isEmpty)]
+        
+        let unvalidFields = validationFiels.filter({ $0.1 == true })
+        let string = unvalidFields.map({ $0.0 }).joined(separator: ", ")
+        
+        if unvalidFields.count > 0 {
+            let alret = UIAlertController(title: "Alert", message: "Please fill the \(string) field", preferredStyle: .alert)
+            alret.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
+            self.present(alret, animated: true, completion: nil)
+            
+            return
+        }
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (result, error) in
+            guard  error == nil else {
+                let alret = UIAlertController(title: "Alert", message: error?.localizedDescription, preferredStyle: .alert)
+                alret.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
+                self?.present(alret, animated: true, completion: nil)
+                return
+            }
+            //successfully Loging user
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    private func handleRegister() {
         
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             return
@@ -60,11 +107,11 @@ class LoginController: UIViewController {
         }
         
         
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (result, error) in
             guard  error == nil else {
                 let alret = UIAlertController(title: "Alert", message: error?.localizedDescription, preferredStyle: .alert)
                 alret.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
-                self.present(alret, animated: true, completion: nil)
+                self?.present(alret, animated: true, completion: nil)
                 return
             }
             //successfully creating user
@@ -80,14 +127,18 @@ class LoginController: UIViewController {
                 "email": email
             ]
             
-            userRef.updateChildValues(values) { (error, ref) in
+            userRef.updateChildValues(values) { [weak self] (error, ref) in
+                guard let self = self else {
+                    return
+                }
                 guard error == nil else {
                     let alret = UIAlertController(title: "Alert", message: error?.localizedDescription, preferredStyle: .alert)
                     alret.addAction(UIAlertAction(title: "ok", style: .destructive, handler: nil))
                     self.present(alret, animated: true, completion: nil)
                     return
                 }
-                //successfully save data 
+                //successfully save data
+                self.dismiss(animated: true, completion: nil)
             }
         }
         
@@ -132,7 +183,7 @@ class LoginController: UIViewController {
     }()
     
     private lazy var loginRegisterSegmentedController: UISegmentedControl = {
-       let sc = UISegmentedControl(items: ["Register", "Login"])
+        let sc = UISegmentedControl(items: ["Register", "Login"])
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.backgroundColor = UIColor(r: 61, g: 91, b: 160)
         sc.selectedSegmentTintColor = .white
@@ -147,7 +198,7 @@ class LoginController: UIViewController {
     
     @objc private func handleLoginRegisterChange() {
         let title = loginRegisterSegmentedController.titleForSegment(at: loginRegisterSegmentedController.selectedSegmentIndex)
-        loginRegisterButton.setTitle(title, for: .normal)
+        nextButton.setTitle(title, for: .normal)
         inputsContainerViewHeightAnchor?.constant = loginRegisterSegmentedController.selectedSegmentIndex == 1 ? 100 : 150
         nameTextFieldHeighConstraint?.constant = loginRegisterSegmentedController.selectedSegmentIndex == 1 ? 0 : 48
         nameSepratorView.backgroundColor = loginRegisterSegmentedController.selectedSegmentIndex == 1 ? .clear : UIColor(r: 220, g: 220, b: 220)
@@ -167,6 +218,8 @@ class LoginController: UIViewController {
     }
     
     private func bindViews() {
+        bindScrollView()
+        bindMainView()
         bindContainerView()
         bindLoginRegisterButton()
         bindNameTextField()
@@ -176,10 +229,38 @@ class LoginController: UIViewController {
         bindPasswordTextField()
         setupLoginRegisterSegmentedController()
         bindProfileImageView()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    private func bindScrollView() {
+        view.addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func bindMainView() {
+        scrollView.addSubview(mainView)
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainView.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            mainView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            mainView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+            mainView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
     }
     
     private func setupLoginRegisterSegmentedController() {
-        view.addSubview(loginRegisterSegmentedController)
+        mainView.addSubview(loginRegisterSegmentedController)
         NSLayoutConstraint.activate([
             loginRegisterSegmentedController.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginRegisterSegmentedController.bottomAnchor.constraint(equalTo: inputsContainerView.topAnchor, constant: -12),
@@ -189,7 +270,7 @@ class LoginController: UIViewController {
     }
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
     private func bindContainerView() {
-        view.addSubview(inputsContainerView)
+        mainView.addSubview(inputsContainerView)
         NSLayoutConstraint.activate([
             inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             inputsContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -200,12 +281,12 @@ class LoginController: UIViewController {
     }
     
     private func bindLoginRegisterButton() {
-        view.addSubview(loginRegisterButton)
+        mainView.addSubview(nextButton)
         NSLayoutConstraint.activate([
-            loginRegisterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginRegisterButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12),
-            loginRegisterButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor),
-            loginRegisterButton.heightAnchor.constraint(equalToConstant: 40)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12),
+            nextButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: 40)
             
         ])
     }
@@ -262,7 +343,7 @@ class LoginController: UIViewController {
     }
     
     private func  bindProfileImageView() {
-        view.addSubview(profileImageView)
+        mainView.addSubview(profileImageView)
         NSLayoutConstraint.activate([
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileImageView.bottomAnchor.constraint(equalTo: loginRegisterSegmentedController.topAnchor, constant: -12),

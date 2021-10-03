@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,8 +11,7 @@
 		154F3B9026D157A900ABFC4A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 154F3B8F26D157A900ABFC4A /* GoogleService-Info.plist */; };
 		15F70A2726CF422F00B484FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A2626CF422F00B484FF /* AppDelegate.swift */; };
 		15F70A2926CF422F00B484FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A2826CF422F00B484FF /* SceneDelegate.swift */; };
-		15F70A2B26CF422F00B484FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A2A26CF422F00B484FF /* ViewController.swift */; };
-		15F70A2E26CF422F00B484FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A2C26CF422F00B484FF /* Main.storyboard */; };
+		15F70A2B26CF422F00B484FF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A2A26CF422F00B484FF /* MainViewController.swift */; };
 		15F70A3026CF423700B484FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A2F26CF423700B484FF /* Assets.xcassets */; };
 		15F70A3326CF423700B484FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15F70A3126CF423700B484FF /* LaunchScreen.storyboard */; };
 		15F70A3E26CF48DC00B484FF /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F70A3D26CF48DC00B484FF /* LoginController.swift */; };
@@ -23,8 +22,7 @@
 		15F70A2326CF422F00B484FF /* gameOfChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameOfChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15F70A2626CF422F00B484FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15F70A2826CF422F00B484FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		15F70A2A26CF422F00B484FF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		15F70A2D26CF422F00B484FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		15F70A2A26CF422F00B484FF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		15F70A2F26CF423700B484FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15F70A3226CF423700B484FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15F70A3426CF423700B484FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +44,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15AE0B74270667BA00E883C5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				15F70A2F26CF423700B484FF /* Assets.xcassets */,
+				15F70A3126CF423700B484FF /* LaunchScreen.storyboard */,
+				15F70A3426CF423700B484FF /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		15AE0B762706684600E883C5 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				15F70A2826CF422F00B484FF /* SceneDelegate.swift */,
+				15F70A2626CF422F00B484FF /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		15F70A1A26CF422F00B484FF = {
 			isa = PBXGroup;
 			children = (
@@ -67,13 +84,9 @@
 		15F70A2526CF422F00B484FF /* gameOfChat */ = {
 			isa = PBXGroup;
 			children = (
+				15AE0B762706684600E883C5 /* Application */,
 				15F70A3C26CF487000B484FF /* Controller */,
-				15F70A2626CF422F00B484FF /* AppDelegate.swift */,
-				15F70A2826CF422F00B484FF /* SceneDelegate.swift */,
-				15F70A2C26CF422F00B484FF /* Main.storyboard */,
-				15F70A2F26CF423700B484FF /* Assets.xcassets */,
-				15F70A3126CF423700B484FF /* LaunchScreen.storyboard */,
-				15F70A3426CF423700B484FF /* Info.plist */,
+				15AE0B74270667BA00E883C5 /* Resources */,
 				154F3B8F26D157A900ABFC4A /* GoogleService-Info.plist */,
 			);
 			path = gameOfChat;
@@ -82,7 +95,7 @@
 		15F70A3C26CF487000B484FF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				15F70A2A26CF422F00B484FF /* ViewController.swift */,
+				15F70A2A26CF422F00B484FF /* MainViewController.swift */,
 				15F70A3D26CF48DC00B484FF /* LoginController.swift */,
 			);
 			path = Controller;
@@ -94,7 +107,6 @@
 				9F463DDBADCC77DA33461374 /* Pods-gameOfChat.debug.xcconfig */,
 				8DF1D16348E74D7FB6173F1C /* Pods-gameOfChat.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -168,7 +180,6 @@
 				15F70A3326CF423700B484FF /* LaunchScreen.storyboard in Resources */,
 				154F3B9026D157A900ABFC4A /* GoogleService-Info.plist in Resources */,
 				15F70A3026CF423700B484FF /* Assets.xcassets in Resources */,
-				15F70A2E26CF422F00B484FF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15F70A2B26CF422F00B484FF /* ViewController.swift in Sources */,
+				15F70A2B26CF422F00B484FF /* MainViewController.swift in Sources */,
 				15F70A3E26CF48DC00B484FF /* LoginController.swift in Sources */,
 				15F70A2726CF422F00B484FF /* AppDelegate.swift in Sources */,
 				15F70A2926CF422F00B484FF /* SceneDelegate.swift in Sources */,
@@ -231,14 +242,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		15F70A2C26CF422F00B484FF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				15F70A2D26CF422F00B484FF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		15F70A3126CF423700B484FF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -373,7 +376,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = gameOfChat/Info.plist;
+				DEVELOPMENT_TEAM = 99TYB5VRS8;
+				INFOPLIST_FILE = gameOfChat/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -392,7 +396,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = gameOfChat/Info.plist;
+				DEVELOPMENT_TEAM = 99TYB5VRS8;
+				INFOPLIST_FILE = gameOfChat/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
